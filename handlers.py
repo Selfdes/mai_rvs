@@ -5,6 +5,7 @@ from werkzeug.exceptions import BadRequest
 from consts import HTTP_CODE_BAD_REQUEST
 from jsonschema import validate, ValidationError
 from service_layler import processing
+import config
 
 blueprint = flask.Blueprint('api', __name__)
 
@@ -17,7 +18,7 @@ def increment():
         flask.current_app.logger.warn(str(e))
         return flask.jsonify({'error': str(e)}), HTTP_CODE_BAD_REQUEST
 
-    with open('/app/jsoncheme/increment/request.json', 'r') as schema:
+    with open(JSONSCHEMA_PATH, 'r') as schema:
         try:
             validate(request, json.load(schema))
         except ValidationError as e:
