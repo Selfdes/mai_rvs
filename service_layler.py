@@ -2,18 +2,18 @@ import redis
 
 
 class AlreadyExistException(Exception):
-    pass
+    type = 1
 
 
 class OneLessThatItWasException(Exception):
-    pass
+    type = 2
 
 
 def processing(db: redis.Redis, number: int) -> int:
     if db.get(number):
-        raise AlreadyExistException('Число уже было')
+        raise AlreadyExistException('Number already exists')
     elif db.get(number + 1):
-        raise OneLessThatItWasException('Число на единицу меньше обработаннаго')
+        raise OneLessThatItWasException('Number is  one less then existing one')
 
     db.set(number, 'True')
 
